@@ -52,3 +52,6 @@ Used to containerize tools (Kafka, Airflow, dbt) for consistent deployment.
 2. activate the venv by going into venv/scripts - activate. 
 2. run the requirements file in the cmd. pip install -r requirements.txt. all the tools mentioned in this file will get installed..
 3. so tools for the docker we installed in part 1. now we initilized the virtual env of python and installed their tools to connect to the tools in docker. such as boto3 to connect to minio etc.
+4. now create the producer file which calls the api finnhub and streams the data into kafka.
+5. now the data streaming to kafka hsa been completed.
+
