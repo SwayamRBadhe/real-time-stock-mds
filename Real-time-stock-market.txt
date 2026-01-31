@@ -1,0 +1,54 @@
+Real-time-stock-market
+
+****************pipeline of the project***************
+
+Data Source (Stock Market API)
+Live stock data is fetched from an external API.
+
+Kafka (Streaming Layer)
+Kafka streams the real-time stock data reliably and at scale.
+
+S3 (Data Lake / Storage)
+The streamed data is stored in S3 as raw data for durability and reprocessing.
+
+Snowflake (Data Warehouse)
+Data from S3 is loaded into Snowflake and organized into layers:
+
+Raw: original, unprocessed data
+
+Cleaned: validated and cleaned data
+
+Business Ready: analytics-ready tables
+
+dbt (Transformations)
+dbt transforms data inside Snowflake (raw → cleaned → business-ready) using SQL and models.
+
+Airflow (Orchestration)
+Airflow schedules and coordinates the entire pipeline (ingestion, loading, transformations).
+
+Power BI (Visualization)
+Business-ready data from Snowflake is used to build dashboards and reports.
+
+Docker
+Used to containerize tools (Kafka, Airflow, dbt) for consistent deployment.
+
+****************setup of the project******************
+
+1. installed docker, python and created acc in snowflake
+2. install python virtual environment and setup a folder with that environment. cmd - python -m venv venv
+3. then in the main folder create the folder named infra which is for infrastructure.
+4. docker initialization - so in this we have kept a docker-compose file (already given by YT), in that file we have certain libraries for docker to install once we run that file the system will automatically install the libraries/tools like kafka zookeeper, airflow, minio (alternate to aws s3) listed in that file basically in git we did git install and it installed all the depedencies mentioned in the file like that.
+5. cmd for above is docker compose up -d. keep docker running in the background to execute this cmd or it will throw an error.
+6. now docker has all the tools. all the tools will be running in the infra in docker except for airflow we have to initialize it. the cmds are 1. docker compose exec airflow-scheduler airflow db init 2. docker compose run airflow-webserver airflow db migrate.
+7. in the docker compose file you can see that we have tools installed in that one of the tool is minio which is alternate to aws s3 and it has password and username mentioned inside.
+8. after that we will setup the password for airflow via cmd. the cmd for that is docker compose exec airflow-webserver airflow users create --username Swayam --firstname Swayam --lastname Badhe --role Admin --email swbadhe@syr.edu --password Smvemjsunp@108.
+9. in the docker now we have all the tools rrunning. to access kafka we will need to use thhe userinterface of kafka which is kafdrop. for minio we have to put username and password like mentioned in yml file.
+10. kafka's UI is kafdrop (no id password), minio is itself (id password shared in yml), airflow's UI is airflow-webserver (id password created in cmd step 8).
+11. now docker has been initialized. all the requird tools has been installed and running. now lets start with the structure of the project.
+
+**************structure of the project******************
+
+1. first is api taken from finnhub.io. then we will install the python tools required to connect python to all the setup tools we created above. those tools are mentioned in requirements.txt file.
+2. activate the venv by going into venv/scripts - activate. 
+2. run the requirements file in the cmd. pip install -r requirements.txt. all the tools mentioned in this file will get installed..
+3. so tools for the docker we installed in part 1. now we initilized the virtual env of python and installed their tools to connect to the tools in docker. such as boto3 to connect to minio etc.
