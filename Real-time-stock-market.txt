@@ -59,3 +59,5 @@ Used to containerize tools (Kafka, Airflow, dbt) for consistent deployment.
 
 *****************data storage minio. kafka to minio (consumer)**********************************
 in this we are creating consumer file where we are sending the streaned data from kfka to store it into minio.
+1. note that minio takes data in json and kafka in bytes. so before transfering awlways convert the type of the data.
+

@@ -5,7 +5,7 @@ from kafka import KafkaConsumer
 import boto3
 
 #initilize the minio and setup the connection
-s3 = boto3.client(
+s3 = boto3.client( 
     "s3",
     endpoint_url="http://localhost:9002",
     aws_access_key_id="admin",
@@ -14,7 +14,7 @@ s3 = boto3.client(
 
 bucket_name = "bronze-transactions"
 
-# Ensure bucket exists (idempotent)
+# Ensure bucket exists (idempotent). if we dont do this then it will create another bucket with same name. we dont want data redudancy
 try:
     s3.head_bucket(Bucket=bucket_name)
     print(f"Bucket {bucket_name} already exists.")
@@ -23,19 +23,19 @@ except Exception:
     print(f"Created bucket {bucket_name}.")
 
 #Define Consumer and connect it to kafka
-consumer = KafkaConsumer(
+consumer = KafkaConsumer( #initializing the data in kafka to be send in minio
     "stock-quotes",
     bootstrap_servers=["host.docker.internal:29092"],
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     group_id="bronze-consumer1",
-    value_deserializer=lambda v: json.loads(v.decode("utf-8"))
+    value_deserializer=lambda v: json.loads(v.decode("utf-8")) #again converting to json from byte. since transfering from kafka to boto3
 )
 
 print("Consumerstreaming and saving to MinIO...")
 
 #Main Function
-for message in consumer:
+for message in consumer: #send from kafka to minio 
     record = message.value
     symbol = record.get("symbol", "unknown")
     ts = record.get("fetched_at",int(time.time()))
