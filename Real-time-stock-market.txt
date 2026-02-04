@@ -69,3 +69,11 @@ in this we are creating consumer file where we are sending the streaned data fro
 1. Initially, MinIO received fewer objects because files were being overwritten.
 2. The consumer used second-level timestamps (`time.time()`) as filenames, so multiple Kafka messages arriving within the same second produced the same object key. MinIO silently overwrote earlier files.
 3. Changing the filename to use millisecond precision (`time.time() * 1000`) made every object key unique, preventing overwrites and allowing all Kafka messages to be stored and later loaded into Snowflake.
+
+***********************setup dbt airflow************************************
+1. create new folder dbt_stocks in main folder. go to the python venv and in dbt_stocks folder type cmd "dbt init dbt_stocks".
+2. after that it will ask you what db you are using type 1 for snowflake as it will be given in the option. then add the details related to the authentication. devname, paswword, dev role = ACCOUNTADMIN, db, wh, SCHEMA, threads = 4.
+3. whenever we create dbt init name we are establishing a connection with the database in the snowflake from our python venv. so db init create certain folders like models on its own. and in that model we keep our stages folders containing sql files. so sql files are connected directly with the snowflake
+3. create 3 folders in dbt_stocks>models> names are bronze, silver, gold.
+4. we wont be using star schema in out project becuase its already 1 type of data or it belongs to one entity. so no need to do it
+5. we have 3 diff models. bronze that is we are fetching the data from bronze_stock_quotes_raw they both are different. then in silver we are cleaning the data like rounding off, null incidents etc.
