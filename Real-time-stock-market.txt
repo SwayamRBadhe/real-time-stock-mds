@@ -64,3 +64,8 @@ in this we are creating consumer file where we are sending the streaned data fro
 *****************uploading data from minio to snowflake******************************
 1. create the database and schema and under that schema create a table in which we are gonna load the bronze data ie. unceaned data.
 2. create a file name minio_to_snoflake python file to transfer the data to the snowflake.
+**Short README explanation (copy-paste ready):**
+
+1. Initially, MinIO received fewer objects because files were being overwritten.
+2. The consumer used second-level timestamps (`time.time()`) as filenames, so multiple Kafka messages arriving within the same second produced the same object key. MinIO silently overwrote earlier files.
+3. Changing the filename to use millisecond precision (`time.time() * 1000`) made every object key unique, preventing overwrites and allowing all Kafka messages to be stored and later loaded into Snowflake.
