@@ -77,3 +77,5 @@ in this we are creating consumer file where we are sending the streaned data fro
 3. create 3 folders in dbt_stocks>models> names are bronze, silver, gold.
 4. we wont be using star schema in out project becuase its already 1 type of data or it belongs to one entity. so no need to do it
 5. we have 3 diff models. bronze that is we are fetching the data from bronze_stock_quotes_raw they both are different. then in silver we are cleaning the data like rounding off, null incidents etc.
+6. in gold model we generated the business ready data. also in gold model we have created views like candlesticks and treechart. so that all the workdon can we done in warehouse instead of power bi. so all the kpi are generated in warehouse.
+7. now go to cmd venv and in dbt_stocks > dbt_stocks run "dbt run". it will run all the sql files.
