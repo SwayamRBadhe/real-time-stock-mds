@@ -35,11 +35,12 @@ consumer = KafkaConsumer( #initializing the data in kafka to be send in minio
 print("Consumerstreaming and saving to MinIO...")
 
 #Main Function
-for message in consumer: #send from kafka to minio 
+for message in consumer:
     record = message.value
     symbol = record.get("symbol", "unknown")
     ts = record.get("fetched_at",int(time.time()))
-    key = f"{symbol}/{ts}.json"
+    key = f"{symbol}/{int(time.time() * 1000)}.json" #this was giving error for everything. we got 139 objects in kafka by api fetch but when saving to minio it was giving less 25 objects coz of same timestamp. so to avoid that we multiplied it by 1000 to get unique timestamp for each object. prodcuer doesnt keep timestamp so we are taking current time. youtuber was ruinning side by side. since we stop producer at firstthen ran consumer and the producer limit was lost and the previouis fetch data were removed. so we got less data. 
+
 
     s3.put_object(
         Bucket=bucket_name,

@@ -61,3 +61,6 @@ Used to containerize tools (Kafka, Airflow, dbt) for consistent deployment.
 in this we are creating consumer file where we are sending the streaned data from kfka to store it into minio.
 1. note that minio takes data in json and kafka in bytes. so before transfering awlways convert the type of the data.
 
+*****************uploading data from minio to snowflake******************************
+1. create the database and schema and under that schema create a table in which we are gonna load the bronze data ie. unceaned data.
+2. create a file name minio_to_snoflake python file to transfer the data to the snowflake.
