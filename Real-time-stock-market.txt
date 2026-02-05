@@ -79,3 +79,7 @@ in this we are creating consumer file where we are sending the streaned data fro
 5. we have 3 diff models. bronze that is we are fetching the data from bronze_stock_quotes_raw they both are different. then in silver we are cleaning the data like rounding off, null incidents etc.
 6. in gold model we generated the business ready data. also in gold model we have created views like candlesticks and treechart. so that all the workdon can we done in warehouse instead of power bi. so all the kpi are generated in warehouse.
 7. now go to cmd venv and in dbt_stocks > dbt_stocks run "dbt run". it will run all the sql files.
+
+**************************power bi setup******************************
+1. open power bi  then get data and database then search snowflake and add credentials and then connect.
+2. you will see the our databas. select the gold models sql file. since we have to only deal with them since they are business ready data. and in the connection setting we are going for direct query instead of import. since we have dynamic data. and the data will be constantly changing so direct query will work fine over here. now start doing Visualization.
