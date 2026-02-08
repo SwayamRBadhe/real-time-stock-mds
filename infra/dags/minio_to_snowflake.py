@@ -14,9 +14,9 @@ BUCKET = "bronze-transactions"
 LOCAL_DIR = "/tmp/minio_downloads"  # use absolute path for Airflow
 
 #initialize snowflake connection details
-SNOWFLAKE_USER = "SwayamBadhe"
-SNOWFLAKE_PASSWORD = "Smvemjsunp@108"
-SNOWFLAKE_ACCOUNT = "dp99178.ca-central-1.aws"
+SNOWFLAKE_USER = "###########"
+SNOWFLAKE_PASSWORD = "#########"
+SNOWFLAKE_ACCOUNT = "###########"
 SNOWFLAKE_WAREHOUSE = "COMPUTE_WH"
 SNOWFLAKE_DB = "STOCKS_MDS"
 SNOWFLAKE_SCHEMA = "COMMON"
